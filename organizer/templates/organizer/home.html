@@ -1,0 +1,140 @@
+{% extends "organizer/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+{% block content %}
+
+{% if registered and user.is_authenticated %}
+<div class="mx-5 d-flex">
+    <button id="jokebtn" type="button" class="btn button rounded-circle btn-lg ms-auto">
+        <!-- Joke Generator  -->
+        <i class="bi bi-emoji-laughing"></i>
+    </button>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="assignModal"  tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="assignModalLabel"></h5>
+          <button id="closebtn" type="button" class="button-close float-end" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body"> 
+            <figure class="">
+                <blockquote class="blockquote">
+                    <p id="joke"></p>
+                </blockquote>
+                <figcaption id="answer"></figcaption>
+            </figure>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+<div class="text-center mb-5">
+    <h1>Upcoming Deadlines</h1>
+    <div class="mx-5 my-2">
+        {% include "organizer/assignments_list.html" with assignments=assignments %}
+    </div>
+</div>
+<div class="text-center">
+    <h1>My Classes</h1>
+</div>
+<div class="mx-5">
+    <ul class="nav nav-tabs">
+    <li class="nav-item" >
+      <a class="nav-link active" onclick="displayCards()" id="cards-tab">Class Pages <i class="bi bi-grid-fill"></i></a>
+    </li>
+    <li class="nav-item" >
+      <a class="nav-link" onclick="displaySchedule()" id="schedule-tab">Schedule <i class="bi bi-hdd-stack"></i></a>
+    </li>
+  </ul>
+</div>
+<div id="classes">
+    <div class="text-center mt-2" id="class-cards">
+         <!-- display classes -->
+        <div class="text-center mx-5">
+            <div class="row row-cols-3"> <!-- responsive grid w 3 cols-->
+            <!-- display student's classes -->
+                {% for class in classes %}
+                <a href="{% url 'organizer:classview' class.class_name %}">
+                <div class="col mb-3 w-35">
+                    <div class="card list-item zoom">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ class.class_name }} </h5>
+                            <p class="card-text">{{ class.student_set.count }} Students</p>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+
+                <div class="col mb-3 w-35">
+                    <a href="{% url 'organizer:search' %}">
+                    <div class="card list-item zoom" >
+                        <div class="card-body">
+                            <h5 class="card-title">Add Class</h5>
+                            <h5 class="card-text"><i class="bi bi-plus-square"></i></h5>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="" id="schedule" style="display:none;">
+    <div class="mx-5 my-2">
+        <h5> Monday </h5>
+        {% include "organizer/schedule.html" with day=M %}
+
+        <h5> Tuesday </h5>
+        {% include "organizer/schedule.html" with day=T %}
+
+        <h5> Wednesday </h5>
+        {% include "organizer/schedule.html" with day=W %}
+
+        <h5> Thursday </h5>
+        {% include "organizer/schedule.html" with day=R %}
+
+        <h5> Friday </h5>
+        {% include "organizer/schedule.html" with day=F %}
+    </div>
+</div>
+{% else %}
+<div class="text-center m-5">
+    <a class="btn button" href="{% url 'index' %}">Go to Login Page <i class="bi bi-arrow-right-circle"></i></a>
+</div>
+
+{% endif%}
+{% endblock %}
+
+{% block js %}
+    <script>
+        function displaySchedule(){
+            document.getElementById("classes").style.display="none";
+            document.getElementById("schedule").style.display="block";
+            document.getElementById("schedule-tab").classList.add("active");
+            document.getElementById("cards-tab").classList.remove("active");
+        }
+
+        function displayCards(){
+            document.getElementById("schedule").style.display="none";
+            document.getElementById("classes").style.display="block";
+            document.getElementById("cards-tab").classList.add("active");
+            document.getElementById("schedule-tab").classList.remove("active");
+
+        }
+    </script>
+    <script type="module" src="{% static 'assignment.js' %}"></script>
+    <script type="module" src="{% static 'newJoke.js' %}"></script>
+    <script type="module" src="{% static 'delete_assign.js' %}"></script>
+
+{% endblock %}

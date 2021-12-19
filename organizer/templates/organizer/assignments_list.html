@@ -1,0 +1,42 @@
+<ul class="list-group">
+  {% for assignment in assignments %}
+  <li class ="list-group-item list-item d-flex align-items-baseline" id="assignment{{assignment.id}}">
+      {% if assignment.completed %}
+        <div class="form-check me-2">
+            <input class="form-check-input assign-complete" type="checkbox" value="" id="completed{{assignment.id}}" checked>
+            <div class="completed">
+              {{ assignment.assignment }}
+              {% if assignment.class_name %}
+                | <a href="{% url 'organizer:classview' assignment.class_name %}"> {{assignment.class_name }} </a>
+              {% endif %}
+            </div>
+        </div>
+        <div class="ms-auto p-1 rounded {{assignment.ColorDeadlines}}" id="deadline{{assignment.id}}" style="display:none;">
+            <i class="bi bi-alarm me-1"></i> {{ assignment.deadline }}
+        </div>
+        <div class="ms-auto p-1 rounded gray" id="deadline_complete{{assignment.id}}">
+          <i class="bi bi-alarm me-1"></i> {{ assignment.deadline }}
+        </div>
+      {% else %}
+        <div class="form-check me-2">
+            <input class="form-check-input assign-complete" type="checkbox" value="" id="completed{{assignment.id}}">
+            <div>
+              {{ assignment.assignment }}
+              {% if assignment.class_name %}
+                | <a href="{% url 'organizer:classview' assignment.class_name %}"> {{assignment.class_name }} </a>
+              {% endif %}
+            </div>
+        </div>
+        <div class="ms-auto p-1 rounded {{assignment.ColorDeadlines}}" id="deadline{{assignment.id}}">
+          <i class="bi bi-alarm me-1"></i> {{ assignment.deadline }}
+        </div>
+        <div class="ms-auto p-1 rounded gray" style="display:none;" id="deadline_complete{{assignment.id}}">
+          <i class="bi bi-alarm me-1"></i> {{ assignment.deadline }}
+        </div>
+      {% endif %}
+      <button class="btn btn-sm button-red rounded-circle ms-3" type="button" id="delete{{assignment.id}}">  <i class="bi bi-trash"></i> </button>
+    </li>
+    {% empty %}
+    <li class="list-group-item list-item d-flex justify-content-center"><i class="bi bi-card-checklist me-1"></i> No upcoming deadlines! </li>
+  {% endfor %}
+</ul>

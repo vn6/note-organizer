@@ -1,0 +1,54 @@
+{% extends "organizer/base.html" %}
+{% load static %}
+{% block content %}
+
+{% if registered and user.is_authenticated %}
+
+<div class="mx-5">
+    <h1 class="text-center">Search for Classes</h1>
+    <div class="d-flex mb-5">
+    <form method="post" class="flex-grow-1">
+        <div class="input-group">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn button" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+    <a class="btn button ms-4" href="{% url 'organizer:search' %}"> Joined Classes <i class="bi bi-collection ms-1"></i> </a>
+    </div>
+
+  <ul class="list-group gap-3 mb-5" >
+      {% for class in classes %}
+        <li class="list-item card py-2 px-3">
+          <div class="d-flex w-100 justify-content-between align-items-baseline">
+              <h5 class="mb-1"> {{ class.class_name }}</h5>
+              {% if class in joined %}
+                <button class="btn button-active">Joined</button>
+              {% else %}
+                {% include "organizer/join_section.html" with class=class %}
+                <button class="btn button" type="button" id="join{{class.class_name}}" data-bs-toggle="modal" data-bs-target="#joinSection{{class.class_name}}">Join Class</button>
+              {% endif %}
+          </div>
+          <p class="mb-1"><i class="bi bi-person-lines-fill"></i> {{ class.student_set.count }} Students</p>
+        </li>
+      {% empty %}
+      
+      <li class="list-group-item list-item">
+          No classes found. Try searching "CS3240", "CS", "C" "3240", or "3" to match "CS3240".
+      </li>
+      
+      {% endfor %}
+  </ul>
+</div>
+
+{% else %}
+<div class="text-center m-5">
+  <a class="btn button" href="{% url 'index' %}">Go to Login Page <i class="bi bi-arrow-right-circle"></i></a>
+</div>
+
+{% endif%}
+{% endblock %}
+
+{% block js %}
+    <script type="module" src="{% static 'join_class.js' %}"></script>
+{% endblock %}

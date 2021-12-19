@@ -1,0 +1,9 @@
+.accordion-button {
+    background: var(--accent-color);
+    color: var(--dark-color);
+}
+
+.accordion-button:not(.collapsed) {
+    background: var(--accent-color);
+    color: var(--dark-color);
+}

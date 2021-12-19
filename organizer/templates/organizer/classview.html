@@ -1,0 +1,100 @@
+{% extends "organizer/base.html" %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'classview.css' %}">
+{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1 id="className">{{class.class_name}}</h1>
+    <a href="{% url 'organizer:students' class.class_name %}"> <i class="bi bi-person-lines-fill"></i> {{ class.student_set.count }} Students </a>
+</div>
+
+<div class="mx-5 my-2">
+    <div class="d-flex mb-2">
+        <button class="btn button ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addGroupModal"> <i class="bi bi-folder-plus"></i> Add Category</button>
+    </div>
+    {% for group in notes_groups %}
+        {% include "organizer/notes_upload.html" with group=group %}
+        <div class="accordion list-item mb-5" id="accordian{{group.id}}">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{group.id}}" aria-expanded="false" aria-controls="collapse{{group.id}}">
+                      {{ group.title }}
+                    </button>
+                </h2>
+                <div id="collapse{{group.id}}" class="accordion-collapse collapse show list-item" aria-labelledby="heading{{group.id}}" data-bs-parent="#accordian{{group.id}}">
+                    <div class="accordion-body">
+                        <div class="mb-2">
+                            <button class="btn button" id="upload{{group.id}}" type="button" data-bs-toggle="modal" data-bs-target="#uploadModal{{group.id}}">
+                                <i class="bi bi-file-earmark-arrow-up"></i> Upload Notes
+                            </button>
+                        </div>
+
+                        <ul class="list-group">
+                            {% for notes in group.notes_set.all %}
+                            <li class="list-group-item list-item" id="note{{notes.id}}">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input" type="checkbox">
+                                    <a class="ms-2" href="{{notes.pdf.url}}" target="_blank" rel="noopener noreferrer"> {{notes.title}} </a>
+                                    <div class="ms-4">  <i class="bi bi-calendar-check me-1"></i> Uploaded {{ notes.date }} </div>
+                                    {% if notes.student == user.student %}
+                                        <button class="btn btn-sm button-red button-delete ms-auto" type="button" id="delete{{notes.id}}">  <i class="bi bi-trash"></i> Delete </button>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% empty %}
+                             <li class="list-group-item list-item">
+                                 <i class="bi bi-file-earmark-x"></i> No notes uploaded yet
+                             </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+               </div>
+            </div>
+        </div>
+    {% empty %}
+    <ul class="list-group">
+        <li class="list-group-item list-item text-center">
+            <i class="bi bi-file-earmark-x"></i> No categories added yet, add a category to upload notes!
+        </li>
+    </ul>
+    {% endfor %}
+</div>
+
+{% if class in user.student.schedule.all %}
+    <div class="text-center mx-5 my-5">
+        <form method ="POST" enctype ="multipart/form-data" action="{% url 'organizer:leave' class.class_name %}">
+            {% csrf_token %}
+            <button class="btn button-red" > <i class="bi bi-door-open-fill"></i> Leave Class </button>
+        </form>
+    </div>
+{% endif %}
+
+<!-- Add Notes Group Modal -->
+<div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="addGroupModalLabel">Add Notes Category</h5>
+        <button type="button" class="button-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body d-inline-flex justify-content-center align-items-baseline">
+          <form id="addNotesGroupForm">
+              {% csrf_token %}
+              <input type="text" id="titleInput" placeholder="Title" required="required">
+              <button type="submit" class="btn btn-sm button m-1" id="addNotesGroupButton">Add</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="module" src="{% static 'add_notes_group.js' %}"></script>
+    <script type="module" src="{% static 'delete_note.js' %}"></script>
+    
+{% endblock %}

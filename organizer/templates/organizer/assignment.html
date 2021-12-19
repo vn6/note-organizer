@@ -1,0 +1,67 @@
+{% extends "organizer/base.html" %}
+{% load static %}
+
+{% block content%}
+{% if registered and user.is_authenticated %}
+
+<div class="text-center">
+    <h1> My Assignments </h1>
+</div>
+
+<!-- display assignments-->
+<div class="px-5 mx-5 mb-5">
+    <div class="d-flex mb-2">
+        <button type="button" class="btn button ms-auto" data-bs-toggle="modal" data-bs-target="#assignModal">
+          <i class="bi bi-plus-circle-dotted"></i> Add Assignment
+        </button>
+    </div>
+  {% include "organizer/assignments_list.html" with assignments=assignments %}
+  {% if completed %}
+    <h5 class="mt-4"> Previously Completed </h5>
+    {% include "organizer/assignments_list.html" with assignments=completed %}
+  {% endif %}
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="assignModalLabel">Create a New Assignment</h5>
+          <button type="button" class="button-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body"> 
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mx-5">
+              <div class="m-2"><label>Class</label>
+                <select class="form-control" name="class_name" data-bs-toggle="tooltip" data-bs-placement="top" title="Join classes to see them here!">
+                  <option value=""> None </option>
+                  {% for class in user.student.schedule.all %}
+                      <option value="{{ class.class_name }}"> {{ class.class_name }} </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="m-2"><label>Assignment</label> {{ assignform.assignment }}</div>
+              <div class="m-2"><label>Deadline</label> <div class="d-flex">{{ assignform.deadline }}</div> </div>
+              <div class="d-flex justify-content-center"><button type="submit" class="btn button mt-2">Save</button></div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% else %}
+  <div class="text-center m-5">
+    <a class="btn button" href="{% url 'index' %}">Go to Login Page <i class="bi bi-arrow-right-circle"></i></a>
+</div>
+  
+  {% endif%}
+{% endblock %}
+
+{% block js %}
+    <script type="module" src="{% static 'assignment.js' %}"></script>
+    <script type="module" src="{% static 'delete_assign.js' %}"></script>
+{% endblock %}

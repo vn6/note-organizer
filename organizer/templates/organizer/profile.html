@@ -1,0 +1,24 @@
+{% extends "organizer/base.html" %}
+{% load static %}
+
+{% block content %}
+{% if registered and user.is_authenticated %}
+
+  <div class="form-box">
+    <div class="border border-light border-1 rounded p-5">
+    <h1 class="text-center"> My Profile </h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form | linebreaks }}
+        <div class="text-center"><button type="submit" class="btn button submit-button ms-auto mt-2">Update Profile <i class="bi bi-arrow-counterclockwise"></i></button></div>
+    </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="text-center m-5">
+    <a class="btn button" href="{% url 'index' %}">Go to Login Page <i class="bi bi-arrow-right-circle"></i></a>
+</div>
+  
+  {% endif%}
+{% endblock %}
+

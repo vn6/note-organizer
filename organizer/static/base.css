@@ -1,0 +1,142 @@
+/*************COLORS VARS**************/
+:root {
+    --main-color: #26408B;
+    --secondary-color: #0F084B;
+    --accent-color: #A6CFD5;
+    --secondary-accent-color: #C2E7D9;
+    --dark-color: #0D0221;
+    --gray-color:#3c3f40;
+    --red-color: #e32020;
+    --yellow-color: #f2cf41;
+    --green-color: #13940f;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: 'Noto Sans', sans-serif !important;
+    margin-bottom: 0.5rem;
+}
+
+body {
+    background: var(--dark-color);
+    color: white;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+.button {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.button:hover {
+    background: var(--accent-color);
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+.button-active {
+    background: var(--accent-color);
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+.modal-content {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+.button-close {
+    background-color: var(--dark-color);
+    border: none;
+    color: var(--accent-color)
+}
+
+.button-close:hover {
+    background-color: var(--dark-color);
+    border: none;
+    color: var(--secondary-accent-color)
+}
+
+.button-red {
+    border-color: var(--bs-danger);
+    color: var(--bs-danger);
+}
+
+.button-red:hover {
+    background: var(--bs-danger);
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+a, .nav-link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover, .nav-link:hover {
+    color: var(--secondary-accent-color);
+    text-decoration: none;
+}
+
+.zoom {
+  transition: transform .3s; /* Animation */
+}
+
+.zoom:hover {
+  transform: scale(1.01);
+}
+
+.navbar {
+    border-bottom:1px solid var(--accent-color);
+    margin-bottom: 4rem;
+}
+
+.navbar-brand {
+    color: var(--accent-color);
+}
+
+.list-item {
+    background: var(--dark-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.form-box {
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.completed {
+    text-decoration: line-through;
+}
+
+.red{
+    background-color: var(--red-color);
+    font-weight: bolder;
+}
+
+.yellow{
+    background-color: var(--yellow-color);
+    color: black;
+    font-weight: bolder;
+}
+
+.green{
+    background-color: var(--green-color);
+    font-weight: bolder;
+}
+
+.gray{
+    background-color: var(--gray-color);
+    font-weight: bolder;
+}

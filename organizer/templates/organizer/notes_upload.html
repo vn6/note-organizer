@@ -1,0 +1,22 @@
+<div class="modal fade" id="uploadModal{{group.id}}" tabindex="-1" aria-labelledby="uploadModalLabel{{group.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadModalLabel{{group.id}}">Upload Notes</h5>
+          <button type="button" class="button-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method ="POST" enctype ="multipart/form-data" action="{% url 'organizer:upload' group.id %}">
+                {% csrf_token %}
+                <div class="mx-5">
+                    <div class="m-2"><label class="me-1">Title</label> {{ form.title }}</div>
+                    <div class="m-2"><label class="me-1">PDF</label> {{ form.pdf }}</div>
+                    <div class="d-flex justify-content-center"><input class="btn button mt-2" type="submit" value = "Submit"></div>
+                </div>
+            </form>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.nav-link.active {
+    color: var(--secondary-accent-color) !important;
+    border-color: var(--secondary-accent-color) !important;
+    background-color: var(--dark-color) !important;
+}
+
+.nav-link:hover {
+    color: var(--secondary-accent-color);
+    border-color: var(--secondary-accent-color) !important;
+    cursor: pointer;
+}
+
+.nav {
+    border-color: var(--secondary-accent-color);
+}
