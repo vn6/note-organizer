@@ -1,3 +1,2 @@
-# project-a-13
-project-a-13 created by GitHub Classroom
+# CS3240 Advanced Software Development Methods Project A-13
 authors: Leigh Striffler, Vi Nguyen, Asheeta Bothra, John Erskine, Nicky Palmer
